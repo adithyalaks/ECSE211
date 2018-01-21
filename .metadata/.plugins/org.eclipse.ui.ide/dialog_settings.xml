@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="/Users/adithya/Desktop/McGill /Winter 2018/ECSE 211/ECSE211_REPO/WallFollowingLab"/>
+	</list>
+	<section name="NewWizardAction">
+		<item value="org.lejos.ev3.ldt.NewEV3ProjectWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.lejos.ev3.ldt.leJOSEV3WizardCategory"/>
+		</list>
+	</section>
+</section>
