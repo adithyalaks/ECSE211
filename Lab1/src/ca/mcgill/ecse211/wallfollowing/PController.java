@@ -50,24 +50,31 @@ public class PController implements UltrasonicController {
     // TODO: process a movement based on the us distance passed in (P style)
     int error_abs = Math.abs(this.distance - bandCenter);
     
-    if( error_abs < bandWidth || filterControl < 60){
+    if(this.distance < 15) {
+    	WallFollowingLab.leftMotor.setSpeed(100); // Initalize motor rolling forward
+    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + 40);
+    	WallFollowingLab.leftMotor.forward();
+    	WallFollowingLab.rightMotor.backward();
+    }
+    
+    else if( error_abs < bandWidth){
     	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED); // Initalize motor rolling forward
     	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);
     	WallFollowingLab.leftMotor.forward();
     	WallFollowingLab.rightMotor.forward();
     }
     
-    if(error_abs<= 40){
+    else if(error_abs<= 40 ){
    
-    	if ((this.distance - bandCenter) < 0) {
+    	if ((this.distance - bandCenter) < 0 ) {
     	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED + 6*error_abs); // Initalize motor rolling forward
-    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED - 2*error_abs);
+    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED - 6*error_abs);
     	WallFollowingLab.leftMotor.forward();
     	WallFollowingLab.rightMotor.forward(); 	
     	}
     
     	else if((this.distance - bandCenter) > 0) {
-    	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED - 2*error_abs); // Initalize motor rolling forward
+    	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED - 6*error_abs); // Initalize motor rolling forward
     	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + 6*error_abs);
     	WallFollowingLab.leftMotor.forward();
     	WallFollowingLab.rightMotor.forward(); 	
@@ -77,13 +84,13 @@ public class PController implements UltrasonicController {
     else if (error_abs > 40) {
     	  if ((this.distance - bandCenter) < 0) {
     	    	WallFollowingLab.leftMotor.setSpeed(200); // Initalize motor rolling forward
-    	    	WallFollowingLab.rightMotor.setSpeed(100);
+    	    	WallFollowingLab.rightMotor.setSpeed(125);
     	    	WallFollowingLab.leftMotor.forward();
     	    	WallFollowingLab.rightMotor.forward(); 	
     	    }
     	    
     	    else if((this.distance - bandCenter) > 0) {
-    	    	WallFollowingLab.leftMotor.setSpeed(100); // Initalize motor rolling forward
+    	    	WallFollowingLab.leftMotor.setSpeed(125); // Initalize motor rolling forward
     	    	WallFollowingLab.rightMotor.setSpeed(200);
     	    	WallFollowingLab.leftMotor.forward();
     	    	WallFollowingLab.rightMotor.forward(); 	
