@@ -7,7 +7,6 @@ public class PController implements UltrasonicController {
 	/* Constants */
 	private static final int MOTOR_SPEED = 200;
 	private static final int FILTER_OUT = 60;
-	private static final int MAX_ERROR = 40;
 
 	private final int bandCenter;
 	private final int bandWidth;
@@ -18,22 +17,15 @@ public class PController implements UltrasonicController {
 		this.bandCenter = bandCenter;
 		this.bandWidth = bandwidth;
 		this.filterControl = 0;
-		
-		//Initialize robot rolling forward.
-		WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
+
+		WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED); // Initalize motor
+															// rolling forward
 		WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);
 		WallFollowingLab.leftMotor.forward();
 		WallFollowingLab.rightMotor.forward();
 	}
 
 	@Override
-	/*
-	 * This method essentially processes the distance read by the ultrasonic sensor
-	 * and adjusts the motor speeds of the robot's motors to react proportionally to errors.
-	 * 
-	 * Inputs: int distance - distance read from the ultrasonic sensor.
-	 * 
-	 */
 	public void processUSData(int distance) {
 
 		// rudimentary filter - toss out invalid samples corresponding to null
@@ -57,66 +49,60 @@ public class PController implements UltrasonicController {
 		}
 
 		// TODO: process a movement based on the us distance passed in (P style)
-		
-		//error_abs is a reference variable to the absolute difference between the robot's actual
-		//distance from the wall, and the distance it ought to be at.
 		int error_abs = Math.abs(this.distance - bandCenter);
 
-		//This if statement allows for the robot to back away from any obstacle it is too close to.
 		if (this.distance < 15) {
-			WallFollowingLab.leftMotor.setSpeed(100); 
+			WallFollowingLab.leftMotor.setSpeed(100); // Initalize motor rolling
+														// forward
 			WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + 40);
 			WallFollowingLab.leftMotor.forward();
 			WallFollowingLab.rightMotor.backward();
 		}
 
-		//This else if block deals with the case that the absolute error is less than the bandwidth.
-		//The robot ought to go forward in this case.
 		else if (error_abs < bandWidth) {
-			WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
+			WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED); // Initalize motor
+																// rolling
+																// forward
 			WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);
 			WallFollowingLab.leftMotor.forward();
 			WallFollowingLab.rightMotor.forward();
 		}
 
-		//This else if block deals with cases where the robot's error in distance
-		//is greater than the specified bandwidth, but where the robot is still able to
-		//detect a near by obstacle.
-		else if (error_abs <= MAX_ERROR) {
-			
-			//Here, if the robot is close to the wall, it moves away from the wall
-			//in proportion to the difference between its actual distance and the band centre.
+		else if (error_abs <= 40) {
+
 			if ((this.distance - bandCenter) < 0) {
-				WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED + 6 * error_abs); 
+				WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED + 6 * error_abs); // Initalize
+																					// motor
+																					// rolling
+																					// forward
 				WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED - 6 * error_abs);
 				WallFollowingLab.leftMotor.forward();
 				WallFollowingLab.rightMotor.forward();
 			}
-			//Here, if the robot is further away from a wall than it should be,
-			//it is made to move closer to the wall, in proportion to the size of its
-			//error in distance.
+
 			else if ((this.distance - bandCenter) > 0) {
-				WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED - 6 * error_abs); 
+				WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED - 6 * error_abs); // Initalize
+																					// motor
+																					// rolling
+																					// forward
 				WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + 6 * error_abs);
 				WallFollowingLab.leftMotor.forward();
 				WallFollowingLab.rightMotor.forward();
 			}
 		}
-		
-		//This block deals with cases where the ultrasonic sensor reports large distances 
-		//away from a wall (typically when the robot is rounding a corner and has no nearby
-		//obstacle within its view. In this case, the robot is instructed to take a wide-turn
-		//so as to prevent it from turning into a wall too quickly.
-		else if (error_abs > MAX_ERROR) {
+
+		else if (error_abs > 40) {
 			if ((this.distance - bandCenter) < 0) {
-				WallFollowingLab.leftMotor.setSpeed(200); 
+				WallFollowingLab.leftMotor.setSpeed(200); // Initalize motor
+															// rolling forward
 				WallFollowingLab.rightMotor.setSpeed(125);
 				WallFollowingLab.leftMotor.forward();
 				WallFollowingLab.rightMotor.forward();
 			}
 
 			else if ((this.distance - bandCenter) > 0) {
-				WallFollowingLab.leftMotor.setSpeed(125); 
+				WallFollowingLab.leftMotor.setSpeed(125); // Initalize motor
+															// rolling forward
 				WallFollowingLab.rightMotor.setSpeed(200);
 				WallFollowingLab.leftMotor.forward();
 				WallFollowingLab.rightMotor.forward();

@@ -27,13 +27,6 @@ public class PController implements UltrasonicController {
 	}
 
 	@Override
-	/*
-	 * This method essentially processes the distance read by the ultrasonic sensor
-	 * and adjusts the motor speeds of the robot's motors to react proportionally to errors.
-	 * 
-	 * Inputs: int distance - distance read from the ultrasonic sensor.
-	 * 
-	 */
 	public void processUSData(int distance) {
 
 		// rudimentary filter - toss out invalid samples corresponding to null

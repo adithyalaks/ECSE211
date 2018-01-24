@@ -24,12 +24,6 @@ public class BangBangController implements UltrasonicController {
 	}
 
 	@Override
-	/*
-	 * This method processes the distance read from the ultrasonic sensor onboard the robot, and corrects 
-	 * the the robot's trajectory in a bang-bang fashion in response to any discrepancy between where the 
-	 * robot actually is, and where the robot should actually be ( specified by the bandcenter).
-	 * 
-	 */
 	public void processUSData(int distance) {
 		this.distance = distance;
 		// TODO: process a movement based on the us distance passed in
